@@ -24,10 +24,9 @@ This project uses a number of open source projects to work properly:
 
 Requires [Maven](https://maven.apache.org/) and of course [Java](https://openjdk.java.net/)
 
-```sh 
+```
 git clone 
-$ npm install -d
-$ node app
+mvn install
 ```
 
 ### Development
