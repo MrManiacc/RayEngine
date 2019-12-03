@@ -1,4 +1,5 @@
 # RayEngine
+[![Build Status](https://travis-ci.com/MrManiacc/RayEngine.svg?branch=master)](https://travis-ci.com/MrManiacc/RayEngine)
 
 RayEngine is written specifically to teach people how to use opengl and lwjgl3.
 
