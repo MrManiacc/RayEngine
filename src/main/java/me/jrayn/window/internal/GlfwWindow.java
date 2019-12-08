@@ -1,6 +1,7 @@
 package me.jrayn.window.internal;
 
 import lombok.Getter;
+import me.jrayn.util.Input;
 import me.jrayn.window.IWindow;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
@@ -20,9 +21,8 @@ public class GlfwWindow implements IWindow {
     private int width, height;
     @Getter
     private boolean fullscreen;
-
     private long window;
-
+    private boolean resized = true;
 
     public GlfwWindow(String title, int width, int height, boolean fullscreen) {
         this.title = title;
@@ -31,6 +31,14 @@ public class GlfwWindow implements IWindow {
         this.fullscreen = fullscreen;
     }
 
+    /**
+     * Get the glfw window handle
+     *
+     * @return glfw window handle
+     */
+    public long getHandle() {
+        return window;
+    }
 
     /**
      * Create the glfw window instance
@@ -46,7 +54,6 @@ public class GlfwWindow implements IWindow {
             System.err.println("Failed to initialize glfw window");
             throw new IllegalStateException("Failed to create window");
         }
-
         pushWindow();
         glfwMakeContextCurrent(window);
         glfwShowWindow(window);
@@ -57,13 +64,16 @@ public class GlfwWindow implements IWindow {
 
     /**
      * register a resize callback
+     * and also sets up the input listener
      */
     private void createCallbacks() {
         glfwSetFramebufferSizeCallback(window, (window, width, height) -> {
             this.width = width;
             this.height = height;
             glViewport(0, 0, width, height);
+            resized = true;
         });
+        Input.init(this);
     }
 
     /**
@@ -111,7 +121,9 @@ public class GlfwWindow implements IWindow {
      */
     public void update() {
         glfwSwapBuffers(window);
+        Input.update();
         glfwPollEvents();
+        resized = false;
     }
 
     /**
@@ -121,5 +133,14 @@ public class GlfwWindow implements IWindow {
      */
     public boolean shouldClose() {
         return glfwWindowShouldClose(window);
+    }
+
+    /**
+     * Checks to see if the window has resized or not
+     *
+     * @return window resized
+     */
+    public boolean hasResized() {
+        return resized;
     }
 }

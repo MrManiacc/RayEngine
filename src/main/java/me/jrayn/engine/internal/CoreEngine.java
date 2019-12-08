@@ -1,17 +1,26 @@
 package me.jrayn.engine.internal;
 
+import com.artemis.managers.TagManager;
 import me.jrayn.engine.IGameEngine;
 import me.jrayn.engine.IGameState;
+import me.jrayn.engine.ecs.IWorldProvider;
+import me.jrayn.engine.ecs.internal.WorldProvider;
+import me.jrayn.engine.ecs.systems.CameraMover;
+import me.jrayn.engine.ecs.systems.ModelLoader;
+import me.jrayn.engine.ecs.systems.ModelRenderer;
 import me.jrayn.render.model.Model;
 import me.jrayn.render.shader.Shader;
 import me.jrayn.window.IWindow;
 
-
+/**
+ * The core of the engine, used for testing features among other things
+ */
 public class CoreEngine implements IGameEngine {
     private IWindow window;
     private IGameState state;
     private IGameState nextState;
     private long lastTime = System.currentTimeMillis();
+    private IWorldProvider worldProvider;
 
     public CoreEngine(IWindow window) {
         this.window = window;
@@ -33,7 +42,8 @@ public class CoreEngine implements IGameEngine {
      */
     public void run(IGameState state) {
         this.state = state;
-        window.createWindow();
+        this.window.createWindow();
+        this.worldProvider = createWorldProvider();
         state.init(this);
         while (update()) {
         }
@@ -53,11 +63,36 @@ public class CoreEngine implements IGameEngine {
         }
         long current = System.currentTimeMillis();
         float delta = (current - lastTime);
+        worldProvider.getWorld().setDelta(delta);
+        worldProvider.process();
         lastTime = current;
         state.render(); //render the current
         state.update(delta);
         window.update();
         return true;
+    }
+
+    /**
+     * Gets the world provider. Only called getWorld for simplicity sake
+     *
+     * @return the world provider
+     */
+    public IWorldProvider getWorld() {
+        return worldProvider;
+    }
+
+    /**
+     * Create the world provider with the given systems
+     *
+     * @return the new world provider
+     */
+    private IWorldProvider createWorldProvider() {
+        return new WorldProvider(
+                new TagManager(),
+                new CameraMover(this),
+                new ModelRenderer(this),
+                new ModelLoader(this)
+        );
     }
 
 

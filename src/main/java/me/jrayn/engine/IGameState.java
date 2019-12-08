@@ -1,5 +1,7 @@
 package me.jrayn.engine;
 
+import com.artemis.World;
+
 public interface IGameState {
 
     /**

@@ -1,5 +1,7 @@
 package me.jrayn.render.model;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
@@ -24,6 +26,8 @@ public class Model {
     private Vbo indexVbo;
     private int indexCount;
     private final static Set<Model> loadedModels = new HashSet<>();
+    private Set<Integer> boundAttributes = new HashSet<>();
+    private final Logger logger = LogManager.getLogger();
 
     /**
      * this creates a new opengl vao instance
@@ -70,6 +74,16 @@ public class Model {
     }
 
     /**
+     * Binds all of the attributes that have been stored
+     */
+    public void bindAll() {
+        bind();
+        for (int attrib : boundAttributes) {
+            GL20.glEnableVertexAttribArray(attrib);
+        }
+    }
+
+    /**
      * Unbinds a vao and it's corresponding vbo id's
      *
      * @param attributes vbo id's
@@ -77,6 +91,16 @@ public class Model {
     public void unbind(int... attributes) {
         for (int i : attributes) {
             GL20.glDisableVertexAttribArray(i);
+        }
+        unbind();
+    }
+
+    /**
+     * Binds all of the attributes that have been stored
+     */
+    public void unbindAll() {
+        for (int attrib : boundAttributes) {
+            GL20.glDisableVertexAttribArray(attrib);
         }
         unbind();
     }
@@ -110,12 +134,16 @@ public class Model {
      * @param attrSize  the size 3 for 3d and 2 for 2d
      */
     public void createAttribute(int attribute, float[] data, int attrSize) {
-        Vbo dataVbo = Vbo.create(GL15.GL_ARRAY_BUFFER);
-        dataVbo.bind();
-        dataVbo.storeData(data);
-        GL20.glVertexAttribPointer(attribute, attrSize, GL11.GL_FLOAT, false, 0, 0);
-        dataVbo.unbind();
-        dataVbos.add(dataVbo);
+        if (boundAttributes.add(attribute)) {
+            Vbo dataVbo = Vbo.create(GL15.GL_ARRAY_BUFFER);
+            dataVbo.bind();
+            dataVbo.storeData(data);
+            GL20.glVertexAttribPointer(attribute, attrSize, GL11.GL_FLOAT, false, 0, 0);
+            dataVbo.unbind();
+            dataVbos.add(dataVbo);
+        } else {
+            logger.warn("Attribute {}, already bound in model!", attribute);
+        }
     }
 
     /**
@@ -126,12 +154,16 @@ public class Model {
      * @param attrSize  the size 3 for 3d and 2 for 2d
      */
     public void createAttribute(int attribute, FloatBuffer data, int attrSize) {
-        Vbo dataVbo = Vbo.create(GL15.GL_ARRAY_BUFFER);
-        dataVbo.bind();
-        dataVbo.storeData(data);
-        GL20.glVertexAttribPointer(attribute, attrSize, GL11.GL_FLOAT, false, 0, 0);
-        dataVbo.unbind();
-        dataVbos.add(dataVbo);
+        if (boundAttributes.add(attribute)) {
+            Vbo dataVbo = Vbo.create(GL15.GL_ARRAY_BUFFER);
+            dataVbo.bind();
+            dataVbo.storeData(data);
+            GL20.glVertexAttribPointer(attribute, attrSize, GL11.GL_FLOAT, false, 0, 0);
+            dataVbo.unbind();
+            dataVbos.add(dataVbo);
+        } else {
+            logger.warn("Attribute {}, already bound in model!", attribute);
+        }
     }
 
     /**
@@ -142,12 +174,16 @@ public class Model {
      * @param attrSize  the size 3 for 3d and 2 for 2d
      */
     public void createIntAttribute(int attribute, int[] data, int attrSize) {
-        Vbo dataVbo = Vbo.create(GL15.GL_ARRAY_BUFFER);
-        dataVbo.bind();
-        dataVbo.storeData(data);
-        GL30.glVertexAttribIPointer(attribute, attrSize, GL11.GL_INT, 0, 0);
-        dataVbo.unbind();
-        dataVbos.add(dataVbo);
+        if (boundAttributes.add(attribute)) {
+            Vbo dataVbo = Vbo.create(GL15.GL_ARRAY_BUFFER);
+            dataVbo.bind();
+            dataVbo.storeData(data);
+            GL30.glVertexAttribIPointer(attribute, attrSize, GL11.GL_INT, 0, 0);
+            dataVbo.unbind();
+            dataVbos.add(dataVbo);
+        } else {
+            logger.warn("Attribute {}, already bound in model!", attribute);
+        }
     }
 
     /**
@@ -158,12 +194,16 @@ public class Model {
      * @param attrSize  the size 3 for 3d and 2 for 2d
      */
     public void createIntAttribute(int attribute, IntBuffer data, int attrSize) {
-        Vbo dataVbo = Vbo.create(GL15.GL_ARRAY_BUFFER);
-        dataVbo.bind();
-        dataVbo.storeData(data);
-        GL30.glVertexAttribIPointer(attribute, attrSize, GL11.GL_INT, 0, 0);
-        dataVbo.unbind();
-        dataVbos.add(dataVbo);
+        if (boundAttributes.add(attribute)) {
+            Vbo dataVbo = Vbo.create(GL15.GL_ARRAY_BUFFER);
+            dataVbo.bind();
+            dataVbo.storeData(data);
+            GL30.glVertexAttribIPointer(attribute, attrSize, GL11.GL_INT, 0, 0);
+            dataVbo.unbind();
+            dataVbos.add(dataVbo);
+        } else {
+            logger.warn("Attribute {}, already bound in model!", attribute);
+        }
     }
 
     /**

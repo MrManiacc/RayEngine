@@ -1,5 +1,6 @@
 package me.jrayn.engine;
 
+import me.jrayn.engine.ecs.IWorldProvider;
 import me.jrayn.window.IWindow;
 
 /**
@@ -43,4 +44,11 @@ public interface IGameEngine {
      * Update the game engine
      */
     boolean update();
+
+    /**
+     * get the ecs world used for registering systems, component management entities etc
+     *
+     * @return the ecs world
+     */
+    IWorldProvider getWorld();
 }

@@ -7,6 +7,13 @@ public interface IWindow {
 
     String getTitle();
 
+    /**
+     * Get the glfw window handle reference
+     *
+     * @return glfw window reference
+     */
+    long getHandle();
+
     boolean isFullscreen();
 
     /**
@@ -26,7 +33,15 @@ public interface IWindow {
 
     /**
      * This should be true until a window close event is request
+     *
      * @return closing state
      */
     boolean shouldClose();
+
+    /**
+     * Checks to see if the window has resized or not
+     *
+     * @return window resized
+     */
+    boolean hasResized();
 }
