@@ -67,7 +67,6 @@ public class EngineProject extends Project {
         this.configFolder = new Folder(root, "config");
         if (!configFolder.createFolder())
             configFolder.propagate();
-
     }
 
 }
