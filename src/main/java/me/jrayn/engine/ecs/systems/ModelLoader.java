@@ -4,7 +4,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.annotations.All;
 import com.artemis.annotations.Exclude;
 import com.artemis.systems.IteratingSystem;
-import me.jrayn.engine.IGameEngine;
+import me.jrayn.core.IGameEngine;
 import me.jrayn.engine.ecs.components.RawMesh;
 import me.jrayn.engine.ecs.components.RenderModel;
 import org.apache.logging.log4j.LogManager;

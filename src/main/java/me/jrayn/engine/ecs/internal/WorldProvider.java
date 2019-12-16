@@ -2,13 +2,13 @@ package me.jrayn.engine.ecs.internal;
 
 import com.artemis.*;
 import com.artemis.managers.TagManager;
-import me.jrayn.engine.ecs.IWorldProvider;
+import me.jrayn.core.IWorldProvider;
 
 /**
  * This is a wrapper around the world, it provides useful features,
  * that are used throughout the engine
  */
-public class WorldProvider extends IWorldProvider {
+public class WorldProvider implements IWorldProvider {
     private World world;
 
     public WorldProvider(BaseSystem... systems) {

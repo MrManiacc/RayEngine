@@ -1,4 +1,4 @@
-package me.jrayn.window;
+package me.jrayn.core;
 
 public interface IWindow {
     int getWidth();

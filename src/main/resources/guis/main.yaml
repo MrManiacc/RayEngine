@@ -1,0 +1,26 @@
+nodeOne:
+  position: relative
+  width: 33%
+  height: 30px
+  padding: 5px
+  background-color: #000000
+  nodeTwo:
+    position: absoulte
+    left: 20px
+    top: 20px
+    width: 30px
+    height: 30px
+    background-color: #ffffff
+    text-color: #000000
+    text: "testing"
+    self-align: center
+  nodeThree:
+    position: absoulte
+    right: 20px
+    top: 20px
+    width: 30px
+    height: 30px
+    background-color: #ffffff
+    text-color: #000000
+    text: "testing"
+    self-align: center

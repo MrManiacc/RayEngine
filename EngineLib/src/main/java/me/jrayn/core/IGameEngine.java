@@ -1,7 +1,6 @@
-package me.jrayn.engine;
+package me.jrayn.core;
 
-import me.jrayn.engine.ecs.IWorldProvider;
-import me.jrayn.window.IWindow;
+import me.jrayn.ui.IGuiProvider;
 
 /**
  * This interface represents the core the engine,handles all game events/input/renderings
@@ -51,4 +50,10 @@ public interface IGameEngine {
      * @return the ecs world
      */
     IWorldProvider getWorld();
+
+    /**
+     * Get the ecs gui world used for managing gui systems
+     * @return the gui world
+     */
+    IGuiProvider getGui();
 }

@@ -1,8 +1,8 @@
-package me.jrayn.window.internal;
+package me.jrayn.engine.window.internal;
 
 import lombok.Getter;
+import me.jrayn.core.IWindow;
 import me.jrayn.util.Input;
-import me.jrayn.window.IWindow;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
@@ -123,7 +123,7 @@ public class GlfwWindow implements IWindow {
         glfwSwapBuffers(window);
         Input.update();
         glfwPollEvents();
-        resized = false;
+//        resized = false;
     }
 
     /**
@@ -141,6 +141,10 @@ public class GlfwWindow implements IWindow {
      * @return window resized
      */
     public boolean hasResized() {
-        return resized;
+        if (resized) {
+            resized = false;
+            return true;
+        }
+        return false;
     }
 }

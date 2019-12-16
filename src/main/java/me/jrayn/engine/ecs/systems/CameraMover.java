@@ -3,7 +3,7 @@ package me.jrayn.engine.ecs.systems;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.All;
 import com.artemis.systems.IteratingSystem;
-import me.jrayn.engine.IGameEngine;
+import me.jrayn.core.IGameEngine;
 import me.jrayn.engine.ecs.components.Camera;
 import me.jrayn.engine.ecs.components.CameraConfig;
 import me.jrayn.engine.ecs.components.Transform;

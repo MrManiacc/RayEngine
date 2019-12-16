@@ -1,6 +1,6 @@
-package me.jrayn.engine;
+package me.jrayn.core;
 
-import com.artemis.World;
+import me.jrayn.core.IGameEngine;
 
 public interface IGameState {
 

@@ -1,14 +1,14 @@
-package me.jrayn.engine.ecs;
+package me.jrayn.core;
 
 import com.artemis.*;
 
-public abstract class IWorldProvider {
+public interface IWorldProvider {
     /**
      * Create the world config
      *
      * @return the world configuration
      */
-    public abstract WorldConfiguration createConfig(BaseSystem... systems);
+     WorldConfiguration createConfig(BaseSystem... systems);
 
     /**
      * Get a system by it's type
@@ -17,14 +17,14 @@ public abstract class IWorldProvider {
      * @param <T>   the system type
      * @return the system it's self
      */
-    public abstract <T extends BaseSystem> T getSystem(Class<T> clazz);
+     <T extends BaseSystem> T getSystem(Class<T> clazz);
 
     /**
      * Create a new entity id reference which is automatically added to the world
      *
      * @return new entity id
      */
-    public abstract int createEntity();
+     int createEntity();
 
     /**
      * Deletes an entity with the given id
@@ -32,7 +32,7 @@ public abstract class IWorldProvider {
      * @param id the deleted id
      * @return whether or not the entity was deleted
      */
-    public abstract boolean deleteEntity(int id);
+     boolean deleteEntity(int id);
 
     /**
      * Simple method to get the actual entity reference from the di
@@ -40,7 +40,7 @@ public abstract class IWorldProvider {
      * @param id the entity id
      * @return the entity instance
      */
-    public abstract Entity getEntity(int id);
+     Entity getEntity(int id);
 
     /**
      * This method will create a new component for the given entity
@@ -52,7 +52,7 @@ public abstract class IWorldProvider {
      * @param <T>   the actual component that was created, will return it allowing for you to set parameters then
      * @return the newly created component with the given type
      */
-    public abstract <T extends Component> T create(int id, Class<T> clazz);
+     <T extends Component> T create(int id, Class<T> clazz);
 
     /**
      * Simply adds a component to the entity, if the component type exsists the old component
@@ -61,7 +61,7 @@ public abstract class IWorldProvider {
      * @param id        the entity id
      * @param component the component to add
      */
-    public abstract void add(int id, Component component);
+     void add(int id, Component component);
 
     /**
      * Delets the given component type from an entity
@@ -70,12 +70,12 @@ public abstract class IWorldProvider {
      * @param clazz the class type to create a component for
      * @param <T>   the type of class to delete
      */
-    public abstract <T extends Component> void delete(int id, Class<T> clazz);
+     <T extends Component> void delete(int id, Class<T> clazz);
 
     /**
      * Process the world
      */
-    public abstract void process();
+     void process();
 
     /**
      * Gets an entity based on it's tag
@@ -83,7 +83,7 @@ public abstract class IWorldProvider {
      * @param tag the entity tag
      * @return entity with given tag
      */
-    public abstract Entity getTagEntity(String tag);
+     Entity getTagEntity(String tag);
 
 
     /**
@@ -92,19 +92,19 @@ public abstract class IWorldProvider {
      * @param tag    the entity tag
      * @param entity the entity to register
      */
-    public abstract void registerTagEntity(String tag, Entity entity);
+     void registerTagEntity(String tag, Entity entity);
 
     /**
      * Unregister an entity with a given tag
      *
      * @param tag the entity tag
      */
-    public abstract void unregisterTagEntity(String tag);
+     void unregisterTagEntity(String tag);
 
     /**
      * Get the raw world
      *
      * @return raw world
      */
-    public abstract World getWorld();
+     World getWorld();
 }

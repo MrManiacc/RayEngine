@@ -1,16 +1,19 @@
 package me.jrayn.engine.internal;
 
 import com.artemis.managers.TagManager;
-import me.jrayn.engine.IGameEngine;
-import me.jrayn.engine.IGameState;
-import me.jrayn.engine.ecs.IWorldProvider;
+import me.jrayn.core.IGameEngine;
+import me.jrayn.core.IGameState;
+import me.jrayn.core.IWorldProvider;
 import me.jrayn.engine.ecs.internal.WorldProvider;
 import me.jrayn.engine.ecs.systems.CameraMover;
 import me.jrayn.engine.ecs.systems.ModelLoader;
 import me.jrayn.engine.ecs.systems.ModelRenderer;
+import me.jrayn.ui.IGuiProvider;
+import me.jrayn.ui.internal.GuiProvider;
+import me.jrayn.ui.systems.NvgRenderer;
 import me.jrayn.render.model.Model;
 import me.jrayn.render.shader.Shader;
-import me.jrayn.window.IWindow;
+import me.jrayn.core.IWindow;
 
 /**
  * The core of the engine, used for testing features among other things
@@ -21,6 +24,7 @@ public class CoreEngine implements IGameEngine {
     private IGameState nextState;
     private long lastTime = System.currentTimeMillis();
     private IWorldProvider worldProvider;
+    private IGuiProvider guiProvider;
 
     public CoreEngine(IWindow window) {
         this.window = window;
@@ -44,6 +48,7 @@ public class CoreEngine implements IGameEngine {
         this.state = state;
         this.window.createWindow();
         this.worldProvider = createWorldProvider();
+        this.guiProvider = createGuiProvider();
         state.init(this);
         while (update()) {
         }
@@ -65,6 +70,8 @@ public class CoreEngine implements IGameEngine {
         float delta = (current - lastTime);
         worldProvider.getWorld().setDelta(delta);
         worldProvider.process();
+        guiProvider.getWorld().setDelta(delta);
+        guiProvider.getWorld().process();
         lastTime = current;
         state.render(); //render the current
         state.update(delta);
@@ -82,6 +89,15 @@ public class CoreEngine implements IGameEngine {
     }
 
     /**
+     * Get the ecs gui world used for managing gui systems
+     *
+     * @return the gui world
+     */
+    public IGuiProvider getGui() {
+        return guiProvider;
+    }
+
+    /**
      * Create the world provider with the given systems
      *
      * @return the new world provider
@@ -93,6 +109,10 @@ public class CoreEngine implements IGameEngine {
                 new ModelRenderer(this),
                 new ModelLoader(this)
         );
+    }
+
+    private IGuiProvider createGuiProvider() {
+        return new GuiProvider(window, new NvgRenderer(this));
     }
 
 
