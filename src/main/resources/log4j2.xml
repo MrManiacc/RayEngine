@@ -16,12 +16,12 @@
             <Policies>
                 <OnStartupTriggeringPolicy/>
             </Policies>
-            <DefaultRolloverStrategy max="5"/>
+            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
     </appenders>
 
     <loggers>
-        <root level="debug">
+        <root level="all">
             <appender-ref ref="Console" level="all"/>
             <appender-ref ref="RollingFile" level="all"/>
         </root>

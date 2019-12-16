@@ -1,4 +1,4 @@
-package me.jrayn.engine.window.internal;
+package me.jrayn.engine.window;
 
 import lombok.Getter;
 import me.jrayn.core.IWindow;
