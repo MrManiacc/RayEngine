@@ -9,9 +9,7 @@ import org.lwjgl.nanovg.NVGColor;
  * as well as with a # at the start or not)
  */
 public class Color {
-    @Getter
     private int r, g, b, a;
-    @Getter
     private NVGColor nanoColor;
 
     /**
@@ -38,19 +36,19 @@ public class Color {
      * @param a alpha component
      */
     public Color(float r, float g, float b, float a) {
-        if (r >= 1.0f)
+        if (r <= 1.0f)
             this.r = (int) (r * 255f);
         else
             this.r = (int) r;
-        if (g >= 1.0f)
+        if (g <= 1.0f)
             this.g = (int) (g * 255.0f);
         else
             this.g = (int) g;
-        if (b >= 1.0f)
+        if (b <= 1.0f)
             this.b = (int) (b * 255.0f);
         else
             this.b = (int) b;
-        if (a >= 1.0f)
+        if (a <= 1.0f)
             this.a = (int) (a * 255.0f);
         else
             this.a = (int) a;
@@ -102,5 +100,35 @@ public class Color {
      */
     public static Color of(String name) {
         return Colors.get(name);
+    }
+
+    public int getR() {
+        return r;
+    }
+
+    public int getG() {
+        return g;
+    }
+
+    public int getB() {
+        return b;
+    }
+
+    public int getA() {
+        return a;
+    }
+
+    public NVGColor getNanoColor() {
+        return nanoColor;
+    }
+
+    @Override
+    public String toString() {
+        return "Color{" +
+                "r=" + r +
+                ", g=" + g +
+                ", b=" + b +
+                ", a=" + a +
+                '}';
     }
 }

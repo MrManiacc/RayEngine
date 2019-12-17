@@ -9,12 +9,23 @@ import lombok.Setter;
  * to a ui node to display text
  */
 public class Text extends Component {
-    @Getter
-    @Setter
+
     private String text = "";
     //represents the width of the text
-    @Getter
-    @Setter
-    private float width = 0;
+
+    public Text(String text) {
+        this.text = text;
+    }
+
+    public Text() {
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
 
 }

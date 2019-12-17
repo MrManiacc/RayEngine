@@ -1,23 +1,38 @@
 package me.jrayn.ui.components.types;
 
-import lombok.Getter;
-
 import static org.lwjgl.util.yoga.Yoga.*;
 
 public enum Align {
-    AUTO(YGAlignAuto),
-    START(YGAlignFlexStart),
-    END(YGAlignFlexEnd),
-    CENTER(YGAlignCenter),
-    SPACE_BETWEEN(YGAlignSpaceBetween),
-    SPACE_AROUND(YGAlignSpaceAround),
-    BASE_LINE(YGAlignBaseline),
-    STRETCH(YGAlignStretch);
+    AUTO(YGAlignAuto, "auto"),
+    START(YGAlignFlexStart, "start"),
+    END(YGAlignFlexEnd, "end"),
+    CENTER(YGAlignCenter, "center"),
+    SPACE_BETWEEN(YGAlignSpaceBetween, "space-between"),
+    SPACE_AROUND(YGAlignSpaceAround, "space-around"),
+    BASE_LINE(YGAlignBaseline, "base-line"),
+    STRETCH(YGAlignStretch, "stretch");
 
-    @Getter
     private int value;
+    private String literal;
 
-    Align(int value) {
+    Align(int value, String literal) {
         this.value = value;
+        this.literal = literal;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public String getLiteral() {
+        return literal;
+    }
+
+    public static Align fromString(String value) {
+        for (Align align : Align.values()) {
+            if (align.getLiteral().toLowerCase().equalsIgnoreCase(value))
+                return align;
+        }
+        return Align.AUTO;
     }
 }

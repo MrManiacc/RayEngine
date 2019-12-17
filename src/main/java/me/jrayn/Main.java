@@ -12,10 +12,9 @@ import java.io.IOException;
 public class Main {
     public static IGameEngine ENGINE;
 
-    public static void main(String[] args) throws IOException {
-        IProject project = new EngineProject(".memez");
-        System.out.println(project.getRoot());
+    public static void main(String[] args){
+        IProject project = new EngineProject(".memez", true);
         ENGINE = new CoreEngine(new GlfwWindow("GameEngine", 1080, 720, false));
-        ENGINE.run(new SandBoxState());
+        ENGINE.run(project, new SandBoxState());
     }
 }

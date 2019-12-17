@@ -113,7 +113,6 @@ public class GlfwWindow implements IWindow {
         glfwFreeCallbacks(window);
         glfwDestroyWindow(window);
         glfwTerminate();
-        System.out.println("Window disposed");
     }
 
     /**

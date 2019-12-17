@@ -11,8 +11,7 @@ import java.util.UUID;
  * of the component
  */
 public class Identifier extends Component {
-    @Getter
-    @Setter
+
     private String id;
 
     public Identifier(String id) {
@@ -24,5 +23,13 @@ public class Identifier extends Component {
      */
     public Identifier() {
         this.id = UUID.randomUUID().toString();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

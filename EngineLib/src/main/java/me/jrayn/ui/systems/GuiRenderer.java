@@ -4,6 +4,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.annotations.All;
 import com.artemis.annotations.Exclude;
 import com.artemis.systems.IteratingSystem;
+import me.jrayn.core.IGuiRenderable;
 import me.jrayn.core.IWindow;
 import me.jrayn.ui.components.Layout;
 import me.jrayn.ui.components.Style;
@@ -36,7 +37,7 @@ public class GuiRenderer extends IteratingSystem {
         Layout.root.compute();
         guiRenderable.beginDraw();
     }
-
+    
     /**
      * render the gui component
      *

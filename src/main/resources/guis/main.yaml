@@ -2,7 +2,7 @@ nodeOne:
   position: relative
   width: 33%
   height: 30px
-  padding: 5px
+  padding: 5px 5px 5px 5px
   background-color: #000000
   nodeTwo:
     position: absoulte

@@ -1,6 +1,8 @@
 package me.jrayn.engine.internal;
 
 import com.artemis.managers.TagManager;
+import me.jrayn.bootstrap.project.EngineProject;
+import me.jrayn.bootstrap.project.IProject;
 import me.jrayn.core.IGameEngine;
 import me.jrayn.core.IGameState;
 import me.jrayn.core.IWorldProvider;
@@ -8,7 +10,7 @@ import me.jrayn.engine.ecs.internal.WorldProvider;
 import me.jrayn.engine.ecs.systems.CameraMover;
 import me.jrayn.engine.ecs.systems.ModelLoader;
 import me.jrayn.engine.ecs.systems.ModelRenderer;
-import me.jrayn.ui.IGuiProvider;
+import me.jrayn.core.IGuiProvider;
 import me.jrayn.ui.internal.GuiProvider;
 import me.jrayn.ui.systems.NvgRenderer;
 import me.jrayn.render.model.Model;
@@ -44,11 +46,12 @@ public class CoreEngine implements IGameEngine {
      *
      * @param state the state to start with
      */
-    public void run(IGameState state) {
+    public void run(IProject project, IGameState state) {
         this.state = state;
         this.window.createWindow();
         this.worldProvider = createWorldProvider();
         this.guiProvider = createGuiProvider();
+        guiProvider.parseGuiElements(project);
         state.init(this);
         while (update()) {
         }

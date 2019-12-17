@@ -1,0 +1,15 @@
+<root style="core">
+    <div class="info-container">
+        <h1 class="info" id="version">Engine Version: 1.0</h1>
+        <h1 class="info" id="java-version">Java Version: 13</h1>
+    </div>
+    <div class="panel">
+        <div class="tab">
+            <h1 class="page-header">Page 1</h1>
+            <h1 class="page-header">Page 2</h1>
+        </div>
+        <div class="content">
+
+        </div>
+    </div>
+</root>

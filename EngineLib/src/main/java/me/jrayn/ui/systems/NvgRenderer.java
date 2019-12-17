@@ -1,6 +1,7 @@
 package me.jrayn.ui.systems;
 
 import me.jrayn.core.IGameEngine;
+import me.jrayn.core.IGuiRenderable;
 import me.jrayn.core.IWindow;
 import me.jrayn.ui.components.Layout;
 import me.jrayn.ui.components.Style;
@@ -8,6 +9,7 @@ import me.jrayn.ui.components.Text;
 import me.jrayn.ui.components.types.Color;
 import me.jrayn.ui.components.types.Dimension;
 import me.jrayn.ui.components.types.Edge;
+import me.jrayn.ui.components.types.TextAlign;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 import org.lwjgl.BufferUtils;
@@ -118,9 +120,13 @@ public class NvgRenderer implements IGuiRenderable {
     public void drawQuad(Layout layout, Style style) {
         if (style.isRender()) {
             nvgSave(vg);
+
             if (layout.getParent() != null) {
                 Vector2f offset = layout.getOffset();
                 nvgTranslate(vg, offset.x, offset.y);
+            }
+            if (style.isHideOverflow()) {
+                nvgScissor(vg, layout.getPosition(Edge.LEFT), layout.getPosition(Edge.TOP), layout.getSize(Dimension.WIDTH), layout.getSize(Dimension.HEIGHT));
             }
             if (!style.isRounded()) {
                 if (style.isDropShadow())
@@ -278,15 +284,31 @@ public class NvgRenderer implements IGuiRenderable {
      * @param text   the text component
      */
     public void drawText(Layout layout, Style style, Text text) {
-        drawQuad(layout, style);
-        Vector2f offset = layout.getOffset();
-        nvgSave(vg);
-        nvgFontFace(vg, style.getTextFamily());
-        nvgFontSize(vg, style.getTextSize());
-        nvgTextAlign(vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
-        nvgTranslate(vg, offset.x, offset.y + layout.getSize(Dimension.HEIGHT));
-        nvgFillColor(vg, style.getTextColor().getNanoColor());
-        nvgText(vg, layout.getPosition(Edge.LEFT) + (layout.getSize(Dimension.WIDTH) / 2), (layout.getPosition(Edge.TOP) - (layout.getSize(Dimension.HEIGHT) / 2)) - 1, text.getText());
-        nvgRestore(vg);
+        if (style.isRender()) {
+            drawQuad(layout, style);
+            Vector2f offset = layout.getOffset();
+            nvgSave(vg);
+            nvgFontFace(vg, style.getTextFamily());
+            nvgFontSize(vg, style.getTextSize());
+            nvgTranslate(vg, offset.x, offset.y + layout.getSize(Dimension.HEIGHT));
+            nvgFillColor(vg, style.getTextColor().getNanoColor());
+            float y = (layout.getPosition(Edge.TOP) - (layout.getSize(Dimension.HEIGHT) / 2)) + 2;
+            int centerAlign = NVG_ALIGN_MIDDLE;
+            if (!layout.isAutoHeight()) {
+                y = (layout.getPosition(Edge.TOP)) - layout.getPadding(Edge.BOTTOM) - 2;
+                centerAlign = NVG_ALIGN_BOTTOM;
+            }
+            if (style.getTextAlign().equals(TextAlign.RIGHT)) {
+                nvgTextAlign(vg, NVG_ALIGN_RIGHT | centerAlign);
+                nvgText(vg, layout.getPosition(Edge.LEFT) + layout.getSize(Dimension.WIDTH) - layout.getPadding(Edge.RIGHT), y, text.getText());
+            } else if (style.getTextAlign().equals(TextAlign.CENTER)) {
+                nvgTextAlign(vg, NVG_ALIGN_CENTER | centerAlign);
+                nvgText(vg, layout.getPosition(Edge.LEFT) + layout.getSize(Dimension.WIDTH) / 2 + style.getTextOffsetX() / 2, y, text.getText());
+            } else if (style.getTextAlign().equals(TextAlign.LEFT)) {
+                nvgTextAlign(vg, NVG_ALIGN_LEFT | centerAlign);
+                nvgText(vg, layout.getPosition(Edge.LEFT) + layout.getPadding(Edge.LEFT) + style.getTextOffsetX(), y, text.getText());
+            }
+            nvgRestore(vg);
+        }
     }
 }

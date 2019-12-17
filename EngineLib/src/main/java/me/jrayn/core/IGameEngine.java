@@ -1,6 +1,6 @@
 package me.jrayn.core;
 
-import me.jrayn.ui.IGuiProvider;
+import me.jrayn.bootstrap.project.IProject;
 
 /**
  * This interface represents the core the engine,handles all game events/input/renderings
@@ -18,7 +18,7 @@ public interface IGameEngine {
      *
      * @param state the state to start with
      */
-    void run(IGameState state);
+    void run(IProject project, IGameState state);
 
     /**
      * Gets the current game state
@@ -53,6 +53,7 @@ public interface IGameEngine {
 
     /**
      * Get the ecs gui world used for managing gui systems
+     *
      * @return the gui world
      */
     IGuiProvider getGui();

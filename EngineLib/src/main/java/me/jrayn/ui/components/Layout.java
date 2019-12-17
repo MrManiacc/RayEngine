@@ -1,7 +1,6 @@
 package me.jrayn.ui.components;
 
 import com.artemis.Component;
-import lombok.Getter;
 import me.jrayn.core.IWindow;
 import me.jrayn.ui.components.types.*;
 import org.joml.Vector2f;
@@ -20,10 +19,8 @@ import static org.lwjgl.util.yoga.Yoga.*;
  */
 public class Layout extends Component {
     //The yoga id instance
-    @Getter
     private long nodeID;
     private long parentNodeID;
-    @Getter
     private Layout parent;
 
 
@@ -39,6 +36,8 @@ public class Layout extends Component {
     public static final Layout root = new Layout(); //the root layout
     private static IWindow _window;
     private Set<Layout> children = new HashSet<>();
+    private boolean autoHeight = false, autoWidth = false;
+
 
     /**
      * Create a new gui element component with no parent
@@ -47,6 +46,20 @@ public class Layout extends Component {
         nodeID = YGNodeNew();
         layout = YGNode.create(nodeID).layout();
         parentNodeID = -1;
+    }
+
+    /**
+     * Create a copy of the layout
+     *
+     * @param copy
+     */
+    public Layout(Layout copy) {
+        nodeID = YGNodeClone(copy.nodeID);
+        layout = YGNode.create(nodeID).layout();
+        parentNodeID = -1;
+    }
+
+    public void copy(Layout copy) {
     }
 
 
@@ -123,6 +136,16 @@ public class Layout extends Component {
     }
 
     /**
+     * Sets the position of a node in absolute coordinates space
+     *
+     * @param position the position to set
+     * @param edge     the edge to set for
+     */
+    public void setPositionPercent(float position, Edge edge) {
+        YGNodeStyleSetPositionPercent(nodeID, edge.getValue(), position);
+    }
+
+    /**
      * Delete the yg node instance
      */
     public void dispose(boolean recursive) {
@@ -189,6 +212,7 @@ public class Layout extends Component {
      */
     public void setWidthAbsolute(float width) {
         YGNodeStyleSetWidth(nodeID, width);
+        autoWidth = false;
     }
 
     /**
@@ -200,6 +224,13 @@ public class Layout extends Component {
         YGNodeStyleSetMinWidth(nodeID, minWidth);
     }
 
+    public long getNodeID() {
+        return nodeID;
+    }
+
+    public Layout getParent() {
+        return parent;
+    }
 
     /**
      * Set the maximum width absolute pixel based
@@ -276,6 +307,7 @@ public class Layout extends Component {
      */
     public void setWidthPercent(float width) {
         YGNodeStyleSetWidthPercent(nodeID, width);
+        autoWidth = false;
     }
 
     /**
@@ -284,6 +316,7 @@ public class Layout extends Component {
      */
     public void setWidthAuto() {
         YGNodeStyleSetWidthAuto(nodeID);
+        autoWidth = true;
     }
 
     /**
@@ -293,6 +326,7 @@ public class Layout extends Component {
      */
     public void setHeightAbsolute(float height) {
         YGNodeStyleSetHeight(nodeID, height);
+        autoHeight = false;
     }
 
     /**
@@ -302,6 +336,7 @@ public class Layout extends Component {
      */
     public void setHeightPercent(float height) {
         YGNodeStyleSetHeightPercent(nodeID, height);
+        autoHeight = false;
     }
 
     /**
@@ -310,6 +345,7 @@ public class Layout extends Component {
      */
     public void setHeightAuto() {
         YGNodeStyleSetHeightAuto(nodeID);
+        autoHeight = true;
     }
 
     /**
@@ -566,13 +602,20 @@ public class Layout extends Component {
         return border.x > 0 || border.y > 0 || border.z > 0 || border.w > 0;
     }
 
+    /**
+     * Set the position style to relative
+     */
     public void setRelative() {
         YGNodeStyleSetPositionType(nodeID, YGPositionTypeRelative);
     }
 
+    /**
+     * Set the position style to absolute
+     */
     public void setAbsolute() {
         YGNodeStyleSetPositionType(nodeID, YGPositionTypeAbsolute);
     }
+
 
     /**
      * Get the border as a vector.
@@ -657,5 +700,13 @@ public class Layout extends Component {
             return layout.nodeID == this.nodeID;
         }
         return false;
+    }
+
+    public boolean isAutoHeight() {
+        return autoHeight;
+    }
+
+    public boolean isAutoWidth() {
+        return autoWidth;
     }
 }
